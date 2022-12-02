@@ -12,6 +12,10 @@ app.use(express.static('public'))
 app.get('/', (req, res) => {
   res.render('index')
 })
+app.get('/expense/new', (req, res) => {
+  res.render('new')
+})
+
 
 app.listen(PORT, () => {
   console.log(`Express is listening on localhost:${PORT}`)

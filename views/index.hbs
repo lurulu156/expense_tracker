@@ -1,1 +1,51 @@
-<h1>This is main page</h1>
+<div class="col-4 mt-5 mx-auto">
+  <div class="mb-2 mt-2" style="width: 100%;">
+    <form action="/">
+      <select class="form-select" id="inputGroupSelect01" name="category" onchange="this.form.submit()">
+        <option selected>類別</option>
+        <option value="lunch">午餐</option>
+        <option value="dinner">晚餐</option>
+      </select>
+    </form>
+  </div>
+</div>
+<div class="col-8 mx-auto d-flex justify-content-center mt-5">
+  <div class="col-6 d-flex justify-content-between">
+    <span>總金額:</span>
+    <span style="color:rgb(211, 72, 17); font-weight: 700; font-size: 50px">25680</span>
+  </div>
+</div>
+<div class="col-8 mx-auto d-flex justify-content-center mt-3">
+  <div class="col-6">
+    <table class="table table-borderless" style="width:150%; text-align:center; vertical-align: middle;">
+      <tbody>
+        <tr>
+          <td class="table-secondary" style="width:10%"><i class="fa-solid fa-utensils"></i></td>
+          <td class="table-secondary" style="width:50%;text-align:start">午餐 <p style="margin:0">2019/12/12</p>
+          </td>
+          <td class="table-secondary" style="width:10%">60</td>
+          <td>修改</td>
+          <td>刪除</td>
+        </tr>
+        <tr>
+          <td style="width:10%"><i class="fa-solid fa-utensils"></i></td>
+          <td style="width:50%;text-align:start">午餐 <p style="margin:0">2019/12/12</p>
+          </td>
+          <td style="width:10%">60</td>
+          <td>修改</td>
+          <td>刪除</td>
+        </tr>
+        <tr>
+          <td class="table-secondary" style="width:10%"><i class="fa-solid fa-utensils"></i></td>
+          <td class="table-secondary" style="width:50%;text-align:start">午餐 <p style="margin:0">2019/12/12</p>
+          </td>
+          <td class="table-secondary" style="width:10%">60</td>
+          <td>修改</td>
+          <td>刪除</td>
+        </tr>
+    </table>
+  </div>
+</div>
+<div class="mt-5 d-flex justify-content-center">
+  <a href="/expense/new" class="btn btn-outline-danger" style="width: 15rem;">新增支出</a>
+</div>
