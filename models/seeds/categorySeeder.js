@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 // require data
 const categoryList = require('./category.json').results
+const categoryLength = Object.keys(categoryList).length
 const Category = require('../category')
 //set mongoose and env
 if (process.env.NODE_ENV !== 'production') {

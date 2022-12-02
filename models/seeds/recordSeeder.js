@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
-const Expense = require('../models/expense')
+const Expense = require('../expense')
 // require data
-const recordList = require('./record.json')
-const categoryList = require('./category.json')
+const recordList = require('./record.json').results
+const recordListLength = recordList.length
+const Category = require('../category')
 //set mongoose and env
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -18,19 +19,10 @@ db.on('error', () => {
 //create seeds
 db.once('open', () => {
   console.log('mongodb connected!')
-  //create category
-  
-  //create record
-
-
-  for (let i = 0; i < 8; i++) {
-    Restaurant.create(
-      {
-        name: `${restaurantList.results[i].name}`,
-        name_en: `${restaurantList.results[i].name_en}`,
-        category: `${restaurantList.results[i].category}`
-      }
-    )
+  for (let i = 0; i < recordListLength; i++) {
+    const { name, date, price } = recordList[i]
+    Category.findOne({ name: recordList[i].category })
+      .then(category => Expense.create({ name, date, category: category._id, price }))
   }
-  console.log('seeds done')
+  console.log('record seeds done')
 })
