@@ -40,12 +40,27 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // routes
 // view all items
 app.get('/', (req, res) => {
-  Expense.find()
-    .lean()
-    .then(expenses => {
-      console.log(expenses)
-      return res.render('index', { expenses })
-    })
+  const sort = { name: req.query.sort }
+  if (!req.query.sort) {
+    return Expense.find()
+      .lean()
+      .then(expenses => {
+        let totalAmount = 0
+        expenses.forEach(item => totalAmount += item.price)
+        return res.render('index', { expenses, totalAmount })
+      })
+  } else {
+    Category.findOne(sort)
+      .then(category => category._id)
+      .then(category => {
+        return Expense.find({ category })
+          .lean()
+          .then(expenses => {
+            let totalAmount = 0
+            expenses.forEach(item => totalAmount += item.price)
+            res.render('index', { expenses, totalAmount })})
+      })
+  }
 })
 //create new item
 app.get('/expense/new', (req, res) => {
