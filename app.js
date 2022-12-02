@@ -74,7 +74,7 @@ app.post('/expense', (req, res) => {
     .then(() => res.redirect('/'))
     .catch(err => console.log(err))
 })
-//edit new item
+//edit item
 app.get('/expense/:expense_id/edit', (req, res) => {
   const _id = req.params.expense_id
   return Expense.findOne({ _id })
@@ -89,9 +89,29 @@ app.get('/expense/:expense_id/edit', (req, res) => {
           expense.date = expense.date.replaceAll('/', '-')
           return res.render('edit', { expense })
         })
+        .catch(err => console.log(err))
     })
     .catch(err => console.log(err))
 })
+app.post('/expense/:expense_id', (req, res) => {
+  const _id = req.params.expense_id
+  const { name, date, category, price } = req.body
+  return Expense.findOne({_id})
+  .then(expense => {
+    return Category.findOne({name: category})
+    .then(category => {
+      expense.category = category._id
+      return expense
+    })
+    .then(expense => {
+      return expense.save()
+    })
+    .catch(err => console.log(err))
+  })
+  .then(() => res.redirect(`/`))
+  .catch(err => console.log(err))
+})
+
 //delete item
 
 
