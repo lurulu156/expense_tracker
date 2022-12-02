@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const PORT = 3000
 const exphbs = require('express-handlebars')
+const Handlebars = require('handlebars') //for handlebar helper
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const Category = require('./models/category')
@@ -24,23 +25,38 @@ db.once('open', () => {
 app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
+//handlebars helper for odd/even
+Handlebars.registerHelper('ifEven', function (conditional, options) {
+  if ((conditional % 2) == 0) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
+});
+
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 
+// routes
 // view all items
 app.get('/', (req, res) => {
-  res.render('index')
+  Expense.find()
+    .lean()
+    .then(expenses => {
+      console.log(expenses)
+      return res.render('index', { expenses })
+    })
 })
 //create new item
 app.get('/expense/new', (req, res) => {
   res.render('new')
 })
 app.post('/expense', (req, res) => {
-  const {name, date, category, price} = req.body
-  Category.findOne({name: category})
-  .then(category => Expense.create({name, date, category: category._id, price}))
-  .then(() => res.redirect('/'))
-  .catch(err => console.log(err))
+  const { name, date, category, price } = req.body
+  Category.findOne({ name: category })
+    .then(category => Expense.create({ name, date, category: category._id, price }))
+    .then(() => res.redirect('/'))
+    .catch(err => console.log(err))
 })
 //edit new item
 app.get('/expense/edit', (req, res) => {
