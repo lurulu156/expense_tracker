@@ -9,10 +9,12 @@ const expenseSchema = new Schema({
     type: String,
   },
   category: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
+    index: true,
     required: true
   },
-  cash: {
+  price: {
     type: Number,
     required: true
   }
