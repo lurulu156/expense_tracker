@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
       .then(expenses => {
         let totalAmount = 0
         expenses.forEach(item => totalAmount += item.price)
-        return res.render('index', { expenses, totalAmount })
+        return res.render('index', { expenses, totalAmount, sort })
       })
   } else {
     Category.findOne(sort)
@@ -58,7 +58,8 @@ app.get('/', (req, res) => {
           .then(expenses => {
             let totalAmount = 0
             expenses.forEach(item => totalAmount += item.price)
-            res.render('index', { expenses, totalAmount })})
+            res.render('index', { expenses, totalAmount, sort })
+          })
       })
   }
 })
