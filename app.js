@@ -75,8 +75,22 @@ app.post('/expense', (req, res) => {
     .catch(err => console.log(err))
 })
 //edit new item
-app.get('/expense/edit', (req, res) => {
-  res.render('edit')
+app.get('/expense/:expense_id/edit', (req, res) => {
+  const _id = req.params.expense_id
+  return Expense.findOne({ _id })
+    .lean()
+    .then(expense => {
+      return Category.findOne({ _id: expense.category })
+        .then(category => {
+          expense.category = category.name
+          return expense
+        })
+        .then(expense => {
+          expense.date = expense.date.replaceAll('/', '-')
+          return res.render('edit', { expense })
+        })
+    })
+    .catch(err => console.log(err))
 })
 //delete item
 

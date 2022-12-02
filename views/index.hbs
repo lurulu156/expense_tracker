@@ -36,8 +36,8 @@
             </p>
           </td>
           <td class="table-secondary" style="width:10%">{{this.price}}</td>
-          <td><a href="/expense/edit" style="text-decoration: none; color:black;">修改</a></td>
-          <td>刪除</td>
+          <td><a href="/expense/{{this._id}}/edit" style="text-decoration: none; color:black;">修改</a></td>
+          <td><a href="/expense/{{this._id}}/edit" style="text-decoration: none; color:black;">刪除</a></td>
         </tr>
         {{else}}
         <tr>
@@ -45,8 +45,8 @@
           <td style="width:50%;text-align:start">{{this.name}} <p style="margin:0">{{this.date}}</p>
           </td>
           <td style="width:10%">{{this.price}}</td>
-          <td><a href="/expense/edit" style="text-decoration: none; color:black;">修改</a></td>
-          <td>刪除</td>
+          <td><a href="/expense/{{this._id}}/edit" style="text-decoration: none; color:black;">修改</a></td>
+          <td><a href="/expense/{{this._id}}/edit" style="text-decoration: none; color:black;">刪除</a></td>
         </tr>
         {{/ifEven}}
         {{/each}}
