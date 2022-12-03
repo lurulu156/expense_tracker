@@ -54,7 +54,6 @@ app.get('/', (req, res) => {
       })
   } else {
     Category.findOne(sort)
-      .then(category => category._id)
       .then(category => {
         return Expense.find({ category })
           .lean()
@@ -96,24 +95,24 @@ app.get('/expense/:expense_id/edit', (req, res) => {
 app.post('/expense/:expense_id', (req, res) => {
   const _id = req.params.expense_id
   const { name, date, category, price } = req.body
-  return Expense.findOne({_id})
-  .then(expense => {
-    return Category.findOne({name: category})
-    .then(category => {
-      expense.category = category._id
-      return expense
-    })
+  return Expense.findOne({ _id })
     .then(expense => {
-      expense.name = name
-      expense.date = expense.date.replaceAll('-', '/')
-      expense.date = date
-      expense.price = price
-      return expense.save()
+      return Category.findOne({ name: category })
+        .then(category => {
+          expense.category = category._id
+          return expense
+        })
+        .then(expense => {
+          expense.name = name
+          expense.date = expense.date.replaceAll('-', '/')
+          expense.date = date
+          expense.price = price
+          return expense.save()
+        })
+        .catch(err => console.log(err))
     })
+    .then(() => res.redirect(`/`))
     .catch(err => console.log(err))
-  })
-  .then(() => res.redirect(`/`))
-  .catch(err => console.log(err))
 })
 
 //delete item
