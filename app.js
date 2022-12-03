@@ -72,7 +72,7 @@ app.get('/expense/new', (req, res) => {
 app.post('/expense', (req, res) => {
   const { name, date, category, price } = req.body
   Category.findOne({ name: category })
-    .then(category => Expense.create({ name, date, category: category._id, price }))
+    .then(category => Expense.create({ name, date, category, price }))
     .then(() => res.redirect('/'))
     .catch(err => console.log(err))
 })
@@ -82,12 +82,11 @@ app.get('/expense/:expense_id/edit', (req, res) => {
   return Expense.findOne({ _id })
     .lean()
     .then(expense => {
-      return Category.findOne({ _id: expense.category })
+      return Category.findOne(expense.category)
         .then(category => {
           expense.category = category.name
-          return expense
+          return res.render('edit', { expense })
         })
-        .then(expense => res.render('edit', { expense }))
         .catch(err => console.log(err))
     })
     .catch(err => console.log(err))
@@ -99,10 +98,7 @@ app.post('/expense/:expense_id', (req, res) => {
     .then(expense => {
       return Category.findOne({ name: category })
         .then(category => {
-          expense.category = category._id
-          return expense
-        })
-        .then(expense => {
+          expense.category = category
           expense.name = name
           expense.date = expense.date.replaceAll('-', '/')
           expense.date = date
