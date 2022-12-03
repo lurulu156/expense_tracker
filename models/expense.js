@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const Category = require('./category')
 const expenseSchema = new Schema({
   name: {
     type: String,
@@ -8,12 +9,7 @@ const expenseSchema = new Schema({
   date: {
     type: String,
   },
-  category: {
-    type: Schema.Types.ObjectId,
-    ref: 'Category',
-    index: true,
-    required: true
-  },
+  category: Category.schema,
   price: {
     type: Number,
     required: true

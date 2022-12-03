@@ -19,10 +19,13 @@ db.on('error', () => {
 //create seeds
 db.once('open', () => {
   console.log('mongodb connected!')
-  for (let i = 0; i < recordListLength; i++) {
-    const { name, date, price } = recordList[i]
-    Category.findOne({ name: recordList[i].category })
-      .then(category => Expense.create({ name, date, category: category._id, price }))
-  }
-  console.log('record seeds done')
+  Promise.all(recordList.map(item => {
+    const { name, date, price } = item
+    return Category.findOne({ name: item.category })
+      .then(category => Expense.create({ name, date, category, price }))
+  }))
+    .then(() => {
+      console.log('record seeds done')
+      process.exit()
+    })
 })

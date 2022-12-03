@@ -18,9 +18,12 @@ db.on('error', () => {
 //create seeds
 db.once('open', () => {
   console.log('mongodb connected!')
-  for (let i = 0; i < categoryLength; i++) {
-    const { name, image } = categoryList[i]
-    Category.create({name, image})
-  }
-  console.log('category seeds done')
+  Promise.all(categoryList.map(item => {
+    const { name, image } = item
+    return Category.create({ name, image })
+  }))
+    .then(() => {
+      console.log('category seeds done')
+      process.exit()
+    })
 })
