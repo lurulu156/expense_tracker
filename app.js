@@ -28,11 +28,14 @@ app.set('view engine', 'hbs')
 //handlebars helper for odd/even
 Handlebars.registerHelper('ifEven', function (conditional, options) {
   if ((conditional % 2) == 0) {
-    return options.fn(this);
+    return options.fn(this)
   } else {
-    return options.inverse(this);
+    return options.inverse(this)
   }
 });
+Handlebars.registerHelper('select', function (selected, option) {
+  return (selected == option) ? 'selected="selected"' : ''
+})
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -85,10 +88,7 @@ app.get('/expense/:expense_id/edit', (req, res) => {
           expense.category = category.name
           return expense
         })
-        .then(expense => {
-          expense.date = expense.date.replaceAll('/', '-')
-          return res.render('edit', { expense })
-        })
+        .then(expense => res.render('edit', { expense }))
         .catch(err => console.log(err))
     })
     .catch(err => console.log(err))
@@ -104,6 +104,10 @@ app.post('/expense/:expense_id', (req, res) => {
       return expense
     })
     .then(expense => {
+      expense.name = name
+      expense.date = expense.date.replaceAll('-', '/')
+      expense.date = date
+      expense.price = price
       return expense.save()
     })
     .catch(err => console.log(err))
