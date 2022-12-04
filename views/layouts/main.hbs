@@ -14,7 +14,9 @@
   <!-- nav -->
   <nav class="navbar bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" style="font-weight: 700" href="/">家庭記帳本</a>
+      <a class="navbar-brand" style="font-weight: 700" href="/">
+        {{#if isAuthenticated}}{{ user.name}}{{/if}}家庭記帳本
+      </a>
       {{#if isAuthenticated}}
       <a href="/users/logout" class="btn btn-outline-danger">登出</a>
       {{else}}
