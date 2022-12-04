@@ -8,6 +8,13 @@ router.post('/login', passport.authenticate('local', {
   failureRedirect: '/users/login'
 }))
 
+router.get('/logout', (req, res, next) => {
+  req.logout((err) => {
+    if (err) { return next(err) }
+    res.redirect('/users/login')
+  })
+})
+
 router.get('/login', (req, res) => {
   res.render('login')
 })
