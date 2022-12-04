@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const Category = require('./models/category')
 const Expense = require('./models/expense')
+const methodOverride = require('method-override')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -39,6 +40,7 @@ Handlebars.registerHelper('select', function (selected, option) {
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
 // routes
 // view all items
@@ -91,7 +93,7 @@ app.get('/expense/:expense_id/edit', (req, res) => {
     })
     .catch(err => console.log(err))
 })
-app.post('/expense/:expense_id', (req, res) => {
+app.put('/expense/:expense_id', (req, res) => {
   const _id = req.params.expense_id
   const { name, date, category, price } = req.body
   return Expense.findOne({ _id })
@@ -112,7 +114,7 @@ app.post('/expense/:expense_id', (req, res) => {
 })
 
 //delete item
-app.post('/expense/:expense_id/delete', (req, res) => {
+app.delete('/expense/:expense_id', (req, res) => {
   const _id = req.params.expense_id
   return Expense.findOne({ _id })
   .then(expense => expense.remove())

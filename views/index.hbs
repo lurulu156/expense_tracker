@@ -33,7 +33,7 @@
           <td class="table-secondary" style="width:10%">{{this.price}}</td>
           <td><a href="/expense/{{this._id}}/edit" style="text-decoration: none; color:black;">修改</a></td>
           <td>
-            <form action="/expense/{{this._id}}/delete" method="POST">
+            <form action="/expense/{{this._id}}?_method=DELETE" method="POST">
               <button type="submit" class="btn btn-outline-secondary" onclick="return confirm('確定要刪除嗎?');">刪除</button>
             </form>
           </td>
@@ -46,7 +46,7 @@
           <td style="width:10%">{{this.price}}</td>
           <td><a href="/expense/{{this._id}}/edit" style="text-decoration: none; color:black;">修改</a></td>
           <td>
-            <form action="/expense/{{this._id}}/delete" method="POST">
+            <form action="/expense/{{this._id}}?_method=DELETE" method="POST">
               <button type="submit" class="btn btn-outline-secondary" onclick="return confirm('確定要刪除嗎?');">刪除</button>
             </form>
           </td>
