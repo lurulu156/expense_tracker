@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const routes = require('./routes')
 const helpers = require('./helpers/handlebars')
+const session = require('express-session')
 
 require('./config/mongoose')
 
@@ -15,6 +16,12 @@ app.engine('hbs', exphbs.engine({
 }))
 
 app.set('view engine', 'hbs')
+
+app.use(session({
+  secret: 'ThisIsMySecret',
+  resave: false,
+  saveUninitialized: true
+}))
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
