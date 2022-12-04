@@ -24,34 +24,23 @@
     <table class="table table-borderless" style="width:150%; text-align:center; vertical-align: middle;">
       <tbody>
         {{#each expenses}}
-        {{#ifEven @index}}
         <tr>
-          <td class="table-secondary" style="width:10%"><i class="{{this.category.image}} fa-xl"></i></td>
-          <td class="table-secondary" style="width:50%;text-align:start">{{this.name}} <p style="margin:0">{{this.date}}
+          <td {{#ifEven @index}} class="table-secondary" {{/ifEven}} style="width:10%"><i
+              class="{{this.category.image}} fa-xl"></i></td>
+          <td {{#ifEven @index}} class="table-secondary" {{/ifEven}} style="width:50%;text-align:start">{{this.name}} <p
+              style="margin:0">{{this.date}}
             </p>
           </td>
-          <td class="table-secondary" style="width:10%">{{this.price}}</td>
-          <td><a href="/expense/{{this._id}}/edit" style="text-decoration: none; color:black;">修改</a></td>
+          <td {{#ifEven @index}} class="table-secondary" {{/ifEven}} style="width:10%">{{this.price}}
+          </td>
+          <td><a href="/expense/{{this._id}}/edit" style="text-decoration: none; color:black;">修改</a>
+          </td>
           <td>
             <form action="/expense/{{this._id}}?_method=DELETE" method="POST">
               <button type="submit" class="btn btn-outline-secondary" onclick="return confirm('確定要刪除嗎?');">刪除</button>
             </form>
           </td>
         </tr>
-        {{else}}
-        <tr>
-          <td style="width:10%"><i class="{{this.category.image}} fa-xl"></i></td>
-          <td style="width:50%;text-align:start">{{this.name}} <p style="margin:0">{{this.date}}</p>
-          </td>
-          <td style="width:10%">{{this.price}}</td>
-          <td><a href="/expense/{{this._id}}/edit" style="text-decoration: none; color:black;">修改</a></td>
-          <td>
-            <form action="/expense/{{this._id}}?_method=DELETE" method="POST">
-              <button type="submit" class="btn btn-outline-secondary" onclick="return confirm('確定要刪除嗎?');">刪除</button>
-            </form>
-          </td>
-        </tr>
-        {{/ifEven}}
         {{/each}}
     </table>
   </div>
