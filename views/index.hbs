@@ -3,11 +3,11 @@
     <form action="/">
       <select class="form-select" id="sort" name="sort" onchange="this.form.submit()" required="true">
         <option value="">類別</option>
-        <option value="家居物業" {{{select sort.name '家居物業'}}}>家居物業</option>
-        <option value="交通出行" {{{select sort.name '交通出行'}}}>交通出行</option>
-        <option value="休閒娛樂" {{{select sort.name '休閒娛樂'}}}>休閒娛樂</option>
-        <option value="餐飲食品" {{{select sort.name '餐飲食品'}}}>餐飲食品</option>
-        <option value="其他" {{{select sort.name '其他'}}}>其他</option>
+        <option value="家居物業" {{{select sort.name '家居物業' }}}>家居物業</option>
+        <option value="交通出行" {{{select sort.name '交通出行' }}}>交通出行</option>
+        <option value="休閒娛樂" {{{select sort.name '休閒娛樂' }}}>休閒娛樂</option>
+        <option value="餐飲食品" {{{select sort.name '餐飲食品' }}}>餐飲食品</option>
+        <option value="其他" {{{select sort.name '其他' }}}>其他</option>
       </select>
       </select>
     </form>
@@ -32,7 +32,11 @@
           </td>
           <td class="table-secondary" style="width:10%">{{this.price}}</td>
           <td><a href="/expense/{{this._id}}/edit" style="text-decoration: none; color:black;">修改</a></td>
-          <td><a href="/expense/{{this._id}}/edit" style="text-decoration: none; color:black;">刪除</a></td>
+          <td>
+            <form action="/expense/{{this._id}}/delete" method="POST">
+              <button type="submit" class="btn btn-outline-secondary" onclick="return confirm('確定要刪除嗎?');">刪除</button>
+            </form>
+          </td>
         </tr>
         {{else}}
         <tr>
@@ -41,7 +45,11 @@
           </td>
           <td style="width:10%">{{this.price}}</td>
           <td><a href="/expense/{{this._id}}/edit" style="text-decoration: none; color:black;">修改</a></td>
-          <td><a href="/expense/{{this._id}}/edit" style="text-decoration: none; color:black;">刪除</a></td>
+          <td>
+            <form action="/expense/{{this._id}}/delete" method="POST">
+              <button type="submit" class="btn btn-outline-secondary" onclick="return confirm('確定要刪除嗎?');">刪除</button>
+            </form>
+          </td>
         </tr>
         {{/ifEven}}
         {{/each}}

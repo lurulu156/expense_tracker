@@ -112,8 +112,13 @@ app.post('/expense/:expense_id', (req, res) => {
 })
 
 //delete item
-
-
+app.post('/expense/:expense_id/delete', (req, res) => {
+  const _id = req.params.expense_id
+  return Expense.findOne({ _id })
+  .then(expense => expense.remove())
+  .then(() => res.redirect('/'))
+  .catch(err => console.log(err))
+})
 app.listen(PORT, () => {
   console.log(`Express is listening on localhost:${PORT}`)
 })
