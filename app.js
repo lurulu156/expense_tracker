@@ -3,24 +3,12 @@ const app = express()
 const PORT = 3000
 const exphbs = require('express-handlebars')
 const Handlebars = require('handlebars') //for handlebar helper
-const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const Category = require('./models/category')
 const Expense = require('./models/expense')
 const methodOverride = require('method-override')
 
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
-// setup mongoose
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-const db = mongoose.connection
-db.on('error', () => {
-  console.log('mongodb error!')
-})
-db.once('open', () => {
-  console.log('mongodb connected!')
-})
+require('./config/mongoose')
 
 //setup handlebars
 app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs' }))
