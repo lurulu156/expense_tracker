@@ -8,16 +8,18 @@ router.get('/new', (req, res) => {
   res.render('new')
 })
 router.post('/', (req, res) => {
+  const userId = req.user._id
   const { name, date, category, price } = req.body
   Category.findOne({ name: category })
-    .then(category => Expense.create({ name, date, category, price }))
+    .then(category => Expense.create({ name, date, category, price, userId }))
     .then(() => res.redirect('/'))
     .catch(err => console.log(err))
 })
 //edit item
 router.get('/:expense_id/edit', (req, res) => {
+  const userId = req.user._id
   const _id = req.params.expense_id
-  return Expense.findOne({ _id })
+  return Expense.findOne({ _id, userId })
     .lean()
     .then(expense => {
       return Category.findOne(expense.category)
@@ -30,9 +32,10 @@ router.get('/:expense_id/edit', (req, res) => {
     .catch(err => console.log(err))
 })
 router.put('/:expense_id', (req, res) => {
+  const userId = req.user._id
   const _id = req.params.expense_id
   const { name, date, category, price } = req.body
-  return Expense.findOne({ _id })
+  return Expense.findOne({ _id, userId })
     .then(expense => {
       return Category.findOne({ name: category })
         .then(category => {
@@ -51,8 +54,9 @@ router.put('/:expense_id', (req, res) => {
 
 //delete item
 router.delete('/:expense_id', (req, res) => {
+  const userId = req.user._id
   const _id = req.params.expense_id
-  return Expense.findOne({ _id })
+  return Expense.findOne({ _id, userId })
     .then(expense => expense.remove())
     .then(() => res.redirect('/'))
     .catch(err => console.log(err))
