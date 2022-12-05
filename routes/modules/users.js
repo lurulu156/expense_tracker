@@ -31,9 +31,6 @@ router.post('/register', (req, res) => {
   if (!email || !password) {
     errors.push({ message: '您的Email或密碼尚未填寫' })
   }
-  if (!name) {
-    errors.push({ message: '您的姓名尚未填寫' })
-  }
   if (password !== confirmPassword) {
     errors.push({ message: '密碼與確認密碼不相符！' })
   }
