@@ -9,37 +9,25 @@ const User = require('../user')
 const bcrypt = require('bcryptjs')
 //create seeds
 db.once('open', () => {
-  console.log('mongodb connected!')
   Promise.all(userList.map(user => {
-    const {name, password} = user
-    bcrypt.genSalt(10)
-    .then(salt => bcrypt.hash(password, salt))
-    .then(hash => {
-      User.create({email,})
-    })
+    const { email, password, recordId } = user
+    return bcrypt.genSalt(10)
+      .then(salt => bcrypt.hash(password, salt))
+      .then(hash => User.create({ email, password: hash })
+        .then(user => {
+          const userId = user._id
+          return Promise.all(recordList.map(item => {
+            if (recordId.includes(item.id)) {
+              const { name, date, price } = item
+              return Category.findOne({ name: item.category })
+                .then(category => Expense.create({ name, date, category, price, userId }))
+            }
+          }))
+        })
+      )
   }))
-  Promise.all(recordList.map(item => {
-    const { name, date, price } = item
-    return Category.findOne({ name: item.category })
-      .then(category => Expense.create({ name, date, category, price }))
-  }))
-    .then(() => {
-      console.log('record seeds done')
-      process.exit()
-    })
+  .then(() => {
+    console.log('record seeds done')
+    process.exit()
+  })
 })
-
-
-
-// db.once('open', () => {
-//   console.log('mongodb connected!')
-//   Promise.all(recordList.map(item => {
-//     const { name, date, price } = item
-//     return Category.findOne({ name: item.category })
-//       .then(category => Expense.create({ name, date, category, price }))
-//   }))
-//     .then(() => {
-//       console.log('record seeds done')
-//       process.exit()
-//     })
-// })
