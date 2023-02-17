@@ -41,7 +41,7 @@ router.put('/:expense_id', (req, res) => {
         .then(category => {
           expense.category = category
           expense.name = name
-          expense.date = expense.date.replaceAll('-', '/')
+          expense.date = expense.date.split('-').join('/')
           expense.date = date
           expense.price = price
           return expense.save()
